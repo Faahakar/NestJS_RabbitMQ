@@ -32,7 +32,7 @@ export default class PostsController {
 
   @Put(':id')
   async replacePost(@Body() post: UpdatePostDto, @Param('id') id: string) {
-    return this.postsService.replacePost(Number(id), post);
+    return this.postsService.updatePost(Number(id), post);
   }
 
   @Delete(':id')
