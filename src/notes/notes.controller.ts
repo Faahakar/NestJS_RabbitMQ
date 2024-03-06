@@ -6,18 +6,21 @@ import {
     Param,
     Post,
     Put,
+    Req,
     UseGuards,
   } from '@nestjs/common';
   import NotesService from './notes.service';
   import { CreateNoteDto } from './dtos/createNote.dto';
   import { UpdateNoteDto } from './dtos/updateNote.dto';
   import JwtAuthenticationGuard from 'src/authentication/jwtAuthentication.guard';
+import RequestWithUser from 'src/authentication/requestWithUser.interface';
   
   @Controller('notes')
   export default class NotesController {
     constructor(private readonly notesService: NotesService) {}
   
     @Get()
+    @UseGuards(JwtAuthenticationGuard)
     getAllNotes() {
       return this.notesService.getAllNotes();
     }
@@ -29,8 +32,8 @@ import {
   
     @Post()
     @UseGuards(JwtAuthenticationGuard)
-    async createNote(@Body() note: CreateNoteDto) {
-      return this.notesService.createNote(note);
+    async createNote(@Body() note: CreateNoteDto, @Req() req: RequestWithUser) {
+      return this.notesService.createNote(note,req.user);
     }
   
     @Put(':id')

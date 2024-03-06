@@ -30,10 +30,11 @@ export class AuthenticationController {
   @HttpCode(200)
   @UseGuards(LocalAuthenticationGuard)
   @Post('log-in')
-  async logIn(request: RequestWithUser) {
+  async logIn(@Req() request: RequestWithUser) {
     const {user} = request;
     const cookie = this.authenticationService.getCookieWithJwtToken(user.id);
     request.res.setHeader('Set-Cookie', cookie);
+    console.log(cookie);
     return user;
   }
   @UseGuards(JwtAuthenticationGuard)

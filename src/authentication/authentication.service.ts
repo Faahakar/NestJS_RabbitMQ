@@ -1,10 +1,13 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import bcrypt from 'bcrypt';
+import { HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import { UsersService } from '../users/users.service';
+import * as bcrypt from 'bcrypt';
 import RegisterDto from './dtos/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from './tokenPayload.interface';
+import { PostgresErrorCode}  from '../database/postgresErrorCode';
+
+@Injectable()
 export class AuthenticationService {
   constructor(
     private readonly usersService: UsersService,
@@ -28,6 +31,7 @@ export class AuthenticationService {
           HttpStatus.BAD_REQUEST,
         );
       }
+      console.log(error)
       throw new HttpException(
         'Something went wrong',
         HttpStatus.INTERNAL_SERVER_ERROR,

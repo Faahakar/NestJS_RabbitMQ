@@ -7,6 +7,7 @@ import Note from './entities/note.entity';
 import { Repository } from 'typeorm';
 import NoteEntity from './entities/note.entity';
 import { NoteNotFoundException } from './exception/noteNotFound.exception';
+import User from 'src/users/user.entity';
 
 @Injectable()
 export default class NotesService {
@@ -20,7 +21,7 @@ export default class NotesService {
   }
 
   async getNoteById(id: number) {
-    const note = await this.notesRepository.findOne({ where: { id } });
+    const note = await this.notesRepository.findOne({ where: { id }, relations: ['author'] });
     if (note) {
       return note;
     }
@@ -29,15 +30,18 @@ export default class NotesService {
 
   async updateNote(id: number, note: UpdateNoteDto) {
     await this.notesRepository.update(id, note);
-    const updatedNote = await this.notesRepository.findOne({ where: { id } });
+    const updatedNote = await this.notesRepository.findOne({ where: { id }, relations: ['author'] });
     if (updatedNote) {
       return updatedNote;
     }
     throw new NoteNotFoundException(id);
   }
 
-  async createNote(note: CreateNoteDto) {
-    const newNote = await this.notesRepository.create(note);
+  async createNote(note: CreateNoteDto, user: User) {
+    const newNote = await this.notesRepository.create({
+        ... note,
+        author: user
+    })
     await this.notesRepository.save(newNote);
     return newNote;
   }
