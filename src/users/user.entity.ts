@@ -5,8 +5,8 @@ import Note from '../notes/entities/note.entity';
  
 @Entity()
 class User {
-  @PrimaryGeneratedColumn()
-  public id: number;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
  
   @Column({ unique: true })
   public email: string;

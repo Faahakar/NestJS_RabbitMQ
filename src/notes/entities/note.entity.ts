@@ -1,21 +1,19 @@
 import { Transform } from 'class-transformer';
+import { UUID } from 'crypto';
 import Category from 'src/categories/category.entity';
 import User from 'src/users/user.entity';
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
 class NoteEntity {
-    @PrimaryGeneratedColumn()
-    public id: number;
+    @PrimaryGeneratedColumn("uuid")
+    public id: string;
 
     @Column()
     public title: string;
 
     @Column()
     public note: string;
-
-    @Column({ nullable: true })
-    public category?: string;
 
     @ManyToOne(() => User, (author: User) => author.notes)
     public author: User;
@@ -27,7 +25,9 @@ class NoteEntity {
     public updated_at: Date;
 
     
-    @ManyToMany(() => Category, (category: Category) => category.notes,{cascade: true})
+    @ManyToMany(() => Category, (category: Category) => category.notes,{
+        cascade: true,
+    })
     @JoinTable()
     public categories: Category[];
 }

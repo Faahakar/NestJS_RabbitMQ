@@ -27,7 +27,7 @@ import RequestWithUser from 'src/authentication/requestWithUser.interface';
   
     @Get(':id')
     getNoteById(@Param('id') id: string) {
-      return this.notesService.getNoteById(Number(id));
+      return this.notesService.getNoteById(id);
     }
   
     @Post()
@@ -38,12 +38,12 @@ import RequestWithUser from 'src/authentication/requestWithUser.interface';
   
     @Put(':id')
     async replaceNote(@Body() note: UpdateNoteDto, @Param('id') id: string) {
-      return this.notesService.updateNote(Number(id), note);
+      return this.notesService.updateNote(id, note);
     }
   
     @Delete(':id')
     async deleteNote(@Param('id') id: string) {
-      this.notesService.deleteNote(Number(id));
+      this.notesService.deleteNote(id);
     }
   }
   

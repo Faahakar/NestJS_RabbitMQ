@@ -1,6 +1,9 @@
+import Category from "src/categories/category.entity";
+
 export class UpdateNoteDto {
-    id: number;
+    id: string;
     note: string;
     title: string;
+    categories: Category[];
   }
   
