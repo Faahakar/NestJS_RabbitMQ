@@ -8,6 +8,7 @@ import { ExceptionsLoggerFilter } from './utils/exceptionsLogger.filter';
 import { NotesModule } from './notes/notes.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { UsersModule } from './users/users.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UsersModule } from './users/users.module';
     NotesModule,
     AuthenticationModule,
     UsersModule,
+    CategoriesModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         POSTGRES_HOST: Joi.string().required(),

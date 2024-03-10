@@ -27,23 +27,23 @@ import RequestWithUser from 'src/authentication/requestWithUser.interface';
   
     @Get(':id')
     getCategoriesById(@Param('id') id: string) {
-      return this.categoriesService.getCategoryById(Number(id));
+      return this.categoriesService.getCategoryById(id);
     }
   
     @Post()
     @UseGuards(JwtAuthenticationGuard)
     async createCategories(@Body() note: CreateCategoryDto, @Req() req: RequestWithUser) {
-      return this.categoriesService.createCategory(note,req.user);
+      return this.categoriesService.createCategory(note);
     }
   
     @Put(':id')
     async replaceCategories(@Body() note: UpdateCategoryDto, @Param('id') id: string) {
-      return this.categoriesService.updateCategory(Number(id), note);
+      return this.categoriesService.updateCategory(id, note);
     }
   
     @Delete(':id')
     async deleteCategories(@Param('id') id: string) {
-      this.categoriesService.deleteCategory(Number(id));
+      this.categoriesService.deleteCategory(id);
     }
   }
   

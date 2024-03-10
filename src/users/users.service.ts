@@ -23,12 +23,12 @@ export class UsersService {
   }
 
   async create(userData: CreateUserDto) {
-    const newUser = await this.usersRepository.create(userData);
+    const newUser = this.usersRepository.create(userData);
     await this.usersRepository.save(newUser);
     return newUser;
   }
 
-  async getById(id: number) {
+  async getById(id: string) {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (user) {
       return user;

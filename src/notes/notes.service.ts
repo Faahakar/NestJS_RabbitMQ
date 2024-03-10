@@ -17,10 +17,10 @@ export default class NotesService {
   ) {}
 
   getAllNotes() {
-    return this.notesRepository.find();
+    return this.notesRepository.find({ relations:['categories']});
   }
 
-  async getNoteById(id: number) {
+  async getNoteById(id: string) {
     const note = await this.notesRepository.findOne({ where: { id }, relations: ['author'] });
     if (note) {
       return note;
@@ -28,8 +28,8 @@ export default class NotesService {
     throw new NoteNotFoundException(id);
   }
 
-  async updateNote(id: number, note: UpdateNoteDto) {
-    await this.notesRepository.update(id, note);
+  async updateNote(id: string, note: UpdateNoteDto) {
+    await this.notesRepository.save(note);
     const updatedNote = await this.notesRepository.findOne({ where: { id }, relations: ['author'] });
     if (updatedNote) {
       return updatedNote;
@@ -46,7 +46,7 @@ export default class NotesService {
     return newNote;
   }
 
-  async deleteNote(id: number) {
+  async deleteNote(id: string) {
     const deleteResponse = await this.notesRepository.delete(id);
     if (!deleteResponse.affected) {
         throw new NoteNotFoundException(id);

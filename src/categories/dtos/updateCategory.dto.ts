@@ -1,5 +1,5 @@
 export class UpdateCategoryDto {
-    id: number;
+    id: string;
     name: string;
     cardColor: string;
   }
